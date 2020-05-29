@@ -3,7 +3,7 @@ class Api::V1::LinksController < ApplicationController
   before_action :load_link, only: [:show, :update, :destroy]
 
   def index
-    render json: { links: @linkswithcategory}
+    render json: { links: @linkswithcategory, categories: @categories}
   end
 
   def create
@@ -67,7 +67,7 @@ class Api::V1::LinksController < ApplicationController
   private
 
     def link_params
-      params.require(:link).permit(:original, :pinned)
+      params.require(:link).permit(:original, :pinned, :category_id)
     end
 
     def load_links_and_categories
