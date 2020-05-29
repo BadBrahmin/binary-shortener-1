@@ -14,7 +14,6 @@ class LinkList extends Component {
     fetch("/api/v1/links")
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         this.setState({
           links: response.links,
           categories: response.categories
