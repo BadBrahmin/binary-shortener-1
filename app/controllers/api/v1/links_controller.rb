@@ -3,7 +3,7 @@ class Api::V1::LinksController < ApplicationController
   before_action :load_link, only: [:show, :update, :destroy]
 
   def index
-    render json: { links: @links}
+    render json: { links: @linkswithcategory}
   end
 
   def create
@@ -37,8 +37,18 @@ class Api::V1::LinksController < ApplicationController
   def update
     if @link.update(link_params)
       @links = Link.order(pinned: :desc, updated_at: :desc)
-
-      render status: :ok, json: { updated_link: @link, links: @links, 
+      @categories = Category.all
+      @linkswithcategory = @links.map{ |link|
+        {id: link.id,
+        original: link.original,
+        short_hash: link.short_hash,
+        pinned: link.pinned,
+        created_at: link.created_at,
+        updated_at: link.updated_at,
+        category: link.category,
+        category_id: link.category_id  
+        }}
+      render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
         :message => "Link Updated!" }
     else
       render status: :unprocessable_entity, json: { errors: @link.errors.full_messages, 
@@ -62,6 +72,17 @@ class Api::V1::LinksController < ApplicationController
 
     def load_links_and_categories
       @links = Link.order(pinned: :desc, updated_at: :desc)
+      @categories = Category.all
+      @linkswithcategory = @links.map{ |link|
+        {id: link.id,
+        original: link.original,
+        short_hash: link.short_hash,
+        pinned: link.pinned,
+        created_at: link.created_at,
+        updated_at: link.updated_at,
+        category: link.category,
+        category_id: link.category_id  
+        }}
     end
 
     def load_link

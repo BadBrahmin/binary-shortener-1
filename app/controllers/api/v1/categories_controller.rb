@@ -1,4 +1,4 @@
-class CategoriesController < ApplicationController
+class Api::V1::CategoriesController < ApplicationController
   before_action :load_category, only: [:show, :update, :destroy]
   
   def index

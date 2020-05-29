@@ -1,4 +1,5 @@
 class Link < ApplicationRecord
+  belongs_to :category, optional: true
   before_validation :generate_short_hash, on: [:create]
   validates :original, presence: true, format: { with: URI::regexp(%w(http https))}
   validates :short_hash, presence: true, uniqueness: true, length: { is: 8 }
