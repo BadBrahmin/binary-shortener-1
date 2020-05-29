@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_29_094520) do
+ActiveRecord::Schema.define(version: 2020_05_29_141449) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(version: 2020_05_29_094520) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "counters", force: :cascade do |t|
+    t.integer "link_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link_id"], name: "index_counters_on_link_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -31,5 +38,6 @@ ActiveRecord::Schema.define(version: 2020_05_29_094520) do
     t.index ["short_hash"], name: "index_links_on_short", unique: true
   end
 
+  add_foreign_key "counters", "links"
   add_foreign_key "links", "categories"
 end
