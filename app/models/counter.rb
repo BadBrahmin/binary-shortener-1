@@ -1,3 +1,3 @@
 class Counter < ApplicationRecord
-  belongs_to :links
+  belongs_to :links, optional: true
 end

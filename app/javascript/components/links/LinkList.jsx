@@ -73,6 +73,12 @@ class LinkList extends Component {
       .then(() => this.componentDidMount());
   };
 
+  handleShowClick = (id) => {
+    fetch(`/api/v1/links/${id}`, {
+      headers: { "Content-Type": "application/json" }
+    });
+  };
+
   handleSetState = () => {
     this.componentDidMount();
   };
@@ -118,7 +124,15 @@ class LinkList extends Component {
                         {link.original}
                       </a>
                     </td>
-                    <td>http://short.is/{link.short_hash}</td>
+                    <td>
+                      <a
+                        href={link.original}
+                        target="_blank"
+                        onClick={() => this.handleShowClick(link.id)}
+                      >
+                        http://short.is/{link.short_hash}
+                      </a>
+                    </td>
                     <td>
                       <div className="dropdown">
                         {link.category ? (

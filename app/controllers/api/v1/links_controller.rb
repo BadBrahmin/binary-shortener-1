@@ -8,7 +8,6 @@ class Api::V1::LinksController < ApplicationController
 
   def create
     @link = Link.find_by(link_params)
-
     if @link
       render status: :ok, json: { link: @link, 
         :message => "Link exists: http://short.is/#{@link.short_hash}" }
@@ -26,7 +25,8 @@ class Api::V1::LinksController < ApplicationController
 
   def show
     if @link
-      render status: :ok, json: { link: @link, 
+      @counter = Counter.create(link_id: params[:id])
+      render status: :ok, json: { link: @link, counted: @counter,
         :message => "The original url of https://short.is/#{@link.short_hash} is #{@link.original}" }
     else
       render status: :not_found, json: { :errors => @link.errors, 
