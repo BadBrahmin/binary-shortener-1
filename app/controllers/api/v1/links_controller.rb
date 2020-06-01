@@ -39,15 +39,16 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
-        original: link.original,
-        short_hash: link.short_hash,
-        pinned: link.pinned,
-        created_at: link.created_at,
-        updated_at: link.updated_at,
-        category: link.category,
-        category_id: link.category_id  
-        }}
+      {linkid: link.id,
+      original: link.original,
+      short_hash: link.short_hash,
+      pinned: link.pinned,
+      created_at: link.created_at,
+      updated_at: link.updated_at,
+      linkcategory: link.category,
+      category_id: link.category_id,
+      last_visited: link.counters.last
+      }}
       render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
         :message => "Link Updated!" }
     else
@@ -74,14 +75,15 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
+        {linkid: link.id,
         original: link.original,
         short_hash: link.short_hash,
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
-        category: link.category,
-        category_id: link.category_id  
+        linkcategory: link.category,
+        category_id: link.category_id,
+        last_visited: link.counters.last
         }}
     end
 
