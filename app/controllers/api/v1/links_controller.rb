@@ -81,7 +81,8 @@ class Api::V1::LinksController < ApplicationController
         created_at: link.created_at,
         updated_at: link.updated_at,
         category: link.category,
-        category_id: link.category_id  
+        category_id: link.category_id,
+        last_visited: link.counters.last
         }}
     end
 
