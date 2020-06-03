@@ -16,9 +16,7 @@ class NewCategory extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { name, color } = this.state;
-
     if (!name || !color) return alert("Please enter all the fields!");
-
     if (color.length !== 7)
       return alert("Please enter a valid Hex Code: #FF0000");
 
@@ -39,8 +37,8 @@ class NewCategory extends Component {
           name: "",
           color: ""
         });
+        this.props.action(response.category);
       })
-      .then(() => this.props.action())
       .catch((err) => console.log(err));
   };
 
