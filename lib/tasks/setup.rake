@@ -37,18 +37,18 @@ task setup_sample_data: [:environment, :not_production] do
   delete_all_records_from_all_tables
 
   links = [
-  {original:"https://learnrubyonrails.bigbinary.com"},
-  {original: "https://learnrubyonrails.bigbinary.com/docs/"},
-  {original: "https://altcampus.io"},
-  {original: "https://twitter.com/"},
-  {original: "https://github.com/tejasaithal/"},
-  {original: "https://fontawesome.com/start"},
-  {original: "https://stackoverflow.com"},
-  {original: "https://hypebeast.com/"},
-  {original: "https://producthunt.com/"},
-  {original: "https://basecamp.com/"},
-  {original: "https://betalist.com/"}
-]
+    {original:"https://learnrubyonrails.bigbinary.com"},
+    {original: "https://learnrubyonrails.bigbinary.com/docs/"},
+    {original: "https://altcampus.io"},
+    {original: "https://twitter.com/"},
+    {original: "https://github.com/tejasaithal/"},
+    {original: "https://fontawesome.com/start"},
+    {original: "https://stackoverflow.com"},
+    {original: "https://hypebeast.com/"},
+    {original: "https://producthunt.com/"},
+    {original: "https://basecamp.com/"},
+    {original: "https://betalist.com/"}
+  ]
   categories = [
     {name: "research", color: "#4287f5"},
     {name: "read-later", color: "#11fa34"},

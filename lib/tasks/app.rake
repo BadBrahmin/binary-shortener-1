@@ -21,7 +21,7 @@ namespace :app do
     response = JSON.parse(session.response.body)
     message = response["message"]
     if response["errors"]
-      puts "No original url was found for the  short url https://short.is/#{short_hash}"
+      puts "No original url was found for the  short url https://www.binary-shortener.herokuapp.com/#{short_hash}"
     else
       puts message
     end

@@ -10,12 +10,12 @@ class Api::V1::LinksController < ApplicationController
     @link = Link.find_by(link_params)
     if @link
       render status: :ok, json: { link: @link, 
-        :message => "Link exists: http://short.is/#{@link.short_hash}" }
+        :message => "Link exists: https://www.binary-shortener.herokuapp.com/#{@link.short_hash}" }
     else
       @link = Link.new(link_params)
       if @link.save
         render status: :ok, json: { link: @link, 
-          :message => "Link shortened to http://short.is/#{@link.short_hash}" }
+          :message => "Link shortened to https://www.binary-shortener.herokuapp.com/#{@link.short_hash}" }
       else
         render status: :unprocessable_entity, json: { errors: @link.errors.full_messages, 
           :message => "Failed to save #{@link.original}" }
@@ -25,14 +25,13 @@ class Api::V1::LinksController < ApplicationController
 
   def show
     if @link
-      # @link.update_attributes(count: @link.count + 1)
       @link.increment!(:count)
       @counter = Counter.create(link_id: params[:id])
       render status: :ok, json: { link: @link, counted: @counter,
-        :message => "The original url of https://short.is/#{@link.short_hash} is #{@link.original}" }
+        :message => "The original url of https://www.binary-shortener.herokuapp.com/#{@link.short_hash} is #{@link.original}" }
     else
-      render status: :not_found, json: { :errors => @link.errors, 
-        :message => "No record was found for https://short.is/#{@link.short_hash}" }
+      render status: :not_found, json: { :errors => @link.errors.full_messages, 
+        :message => "No record was found for https://www.binary-shortener.herokuapp.com/#{@link.short_hash}" }
     end
   end
 
@@ -84,8 +83,8 @@ class Api::V1::LinksController < ApplicationController
         created_at: link.created_at,
         updated_at: link.updated_at,
         linkcategory: link.category,
-        category_id: link.category_id,
-        count: link.count
+        count: link.count,
+        category_id: link.category_id
         }}
     end
 

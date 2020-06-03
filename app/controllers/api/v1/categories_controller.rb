@@ -24,26 +24,6 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
-  def show
-    if @category
-      links_in_category = Link.where(category_id: @category.id)
-      render status: :ok, json: { category: @category, links: links_in_category }
-    else
-      render status: :not_found, json: { errors: @category.errors.full_messages }
-    end
-  end
-
-  def update
-    if @category.update(category_params)
-      @categories = Category.order(updated_at: :desc)
-      render status: :ok, json: { categories: @categories,
-        :message => "Link Updated!" }
-    else
-      render status: :unprocessable_entity, json: { errors: @link.errors.full_messages, 
-        :message => "Update Failed" }
-    end
-  end
-
   def destroy
     if @category.destroy
       render status: :ok, json: { :message => "Category successfully deleted!" }
@@ -56,7 +36,7 @@ class Api::V1::CategoriesController < ApplicationController
   private
 
     def category_params
-      params.require(:category).permit(:name, :description, :color)
+      params.require(:category).permit(:name, :color)
     end
 
     def load_category
