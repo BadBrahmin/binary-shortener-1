@@ -44,13 +44,45 @@ task setup_sample_data: [:environment, :not_production] do
   {original: "https://github.com/tejasaithal/"},
   {original: "https://fontawesome.com/start"},
   {original: "https://stackoverflow.com"},
-  {original: "https://stackoverflow.in/"}
+  {original: "https://hypebeast.com/"},
+  {original: "https://producthunt.com/"},
+  {original: "https://basecamp.com/"},
+  {original: "https://betalist.com/"}
 ]
+  categories = [
+    {name: "research", color: "#4287f5"},
+    {name: "read-later", color: "#11fa34"},
+    {name: "marketing", color: "#f08d02"},
+    {name: "content", color: "#fa11f2"}
+  ]
 
-links.each do |link|
-  newLink = Link.new(original: link[:original])
-  newLink.save
-end
+  puts ""
+  puts "creating links..."
 
-  puts "sample data was added successfully"
+  links.each do |link|
+    newLink = Link.new(original: link[:original])
+    newLink.save
+  end
+
+  puts ""
+  puts "creating categories..."
+
+  categories.each do |category|
+    newCategory = Category.new(name: category[:name], color: category[:color])
+    newCategory.save
+  end
+
+  puts ""
+  puts "ringing the counters..."
+  
+  Link.all.each do |link|
+    rand(5...15).times {
+      @link = Link.find_by!(id: link.id)
+      @link.increment!(:count)
+      @counter = Counter.create(link_id: link.id, created_at: rand(1..100).days.ago)
+    }
+  end
+  
+  puts ""
+  puts "sample data was added successfully!"
 end
