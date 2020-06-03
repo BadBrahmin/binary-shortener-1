@@ -43,7 +43,6 @@ class CategoryList extends Component {
 
   render() {
     const { categories } = this.state && this.state;
-    console.log(categories);
     return (
       <div className="my-5">
         <h2>Category List</h2>

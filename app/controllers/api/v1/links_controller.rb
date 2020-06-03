@@ -25,7 +25,8 @@ class Api::V1::LinksController < ApplicationController
 
   def show
     if @link
-      @link.update_attributes(count: @link.count + 1)
+      # @link.update_attributes(count: @link.count + 1)
+      @link.increment!(:count)
       @counter = Counter.create(link_id: params[:id])
       render status: :ok, json: { link: @link, counted: @counter,
         :message => "The original url of https://short.is/#{@link.short_hash} is #{@link.original}" }
@@ -84,7 +85,7 @@ class Api::V1::LinksController < ApplicationController
         updated_at: link.updated_at,
         linkcategory: link.category,
         category_id: link.category_id,
-        count: link.count,
+        count: link.count
         }}
     end
 
