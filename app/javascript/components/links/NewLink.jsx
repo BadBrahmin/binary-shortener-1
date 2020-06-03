@@ -15,7 +15,6 @@ class NewLink extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { original } = this.state;
-
     if (!original) return alert("Please enter a valid link!");
 
     function isValidUrl(original) {
@@ -24,11 +23,9 @@ class NewLink extends Component {
       } catch (_) {
         return false;
       }
-
       return true;
     }
-
-    if (isValidUrl(original) == true) {
+    if (isValidUrl(original)) {
       const link = {
         original
       };
@@ -44,8 +41,8 @@ class NewLink extends Component {
           this.setState({
             original: ""
           });
+          this.props.action(response.link);
         })
-        .then(() => this.props.action())
         .catch((response) => alert(response.message));
     } else {
       alert("Link not valid!");

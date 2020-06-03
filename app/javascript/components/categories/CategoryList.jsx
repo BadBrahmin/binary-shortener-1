@@ -24,13 +24,21 @@ class CategoryList extends Component {
     })
       .then((response) => response.json())
       .then((response) => {
-        alert(response.message);
-      })
-      .then(() => this.componentDidMount());
+        this.setState((state) => {
+          let newCategories = state.categories.filter(
+            (category) => category.id !== id
+          );
+          return { categories: newCategories };
+        }, alert(response.message));
+      });
   };
 
-  handleSetState = () => {
-    this.componentDidMount();
+  handleNewCategory = (newCategory) => {
+    this.setState((state) => {
+      return {
+        categories: state.categories.concat(newCategory)
+      };
+    });
   };
 
   render() {
@@ -38,8 +46,8 @@ class CategoryList extends Component {
     return (
       <div className="my-5">
         <h2>Category List</h2>
-        <NewCategory action={this.handleSetState} />
-        <table className="table table-striped table-bordered text-center">
+        <NewCategory action={this.handleNewCategory} />
+        <table className="table table-striped text-center">
           <thead className="thead-light">
             <tr>
               <th>Color</th>

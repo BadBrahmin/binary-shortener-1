@@ -21,8 +21,8 @@ class Reports extends Component {
       <>
         <div className="my-5">
           <h2>Reports</h2>
-          <table className="table table-striped text-center my-5">
-            <thead className="thead-secondary">
+          <table className="table table-striped text-center my-5 p-5">
+            <thead className="thead-light">
               <tr>
                 <th>Months</th>
                 <th># of clicks</th>
@@ -44,3 +44,5 @@ class Reports extends Component {
     );
   }
 }
+
+export default Reports;
