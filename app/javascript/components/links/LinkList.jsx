@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import NewLink from "./NewLink";
-import ReactTooltip from "react-tooltip";
-import moment from "moment";
 
 class LinkList extends Component {
   constructor() {
@@ -49,7 +47,7 @@ class LinkList extends Component {
         category_id: category_id
       }
     };
-    console.log(payload);
+
     fetch(`/api/v1/links/${link_id}`, {
       method: "PUT",
       headers: {
@@ -70,9 +68,11 @@ class LinkList extends Component {
     })
       .then((response) => response.json())
       .then((response) => {
-        alert(response.message);
-      })
-      .then(() => this.componentDidMount());
+        this.setState((state) => {
+          let newLinks = state.links.filter((link) => link.linkid !== id);
+          return { links: newLinks };
+        }, alert(response.message));
+      });
   };
 
   handleShowClick = (id) => {
@@ -81,39 +81,30 @@ class LinkList extends Component {
     });
   };
 
-  formatDate = (date) => {
-    // const updatedAt = updatedAtArr.push(
-    //   ...updatedAtArr,
-    //   moment(date).fromNow()
-    // );
-    const last_updated = moment(date).fromNow();
-    console.log(last_updated);
-
-    // console.log(updatedAtArr, "----date");
-    // return this.setState({ ...this.state.updatedAt, last_updated });
-  };
-
-  handleSetState = () => {
-    this.componentDidMount();
+  handleNewLink = (newLink) => {
+    this.setState((state) => {
+      return {
+        links: state.links.concat(newLink)
+      };
+    });
   };
 
   render() {
     const { links, categories } = this.state;
-    console.log(links, "------links");
     return (
       <div className="my-5">
         <h2>Links List</h2>
-        <NewLink action={this.handleSetState} />
-        <table className="table table-striped table-bordered text-center">
+        <NewLink action={this.handleNewLink} />
+        <table className="table table-striped text-center">
           <thead className="thead-light">
             <tr>
               <th>
-                {" "}
                 <i className="fas fa-thumbtack"></i>
               </th>
               <th>Original Link</th>
               <th>Short Link</th>
               <th>Category</th>
+              <th>Visits</th>
               <th>
                 <i className="fas fa-trash-alt"></i>
               </th>
@@ -123,14 +114,7 @@ class LinkList extends Component {
             {links &&
               links.map(
                 (
-                  {
-                    linkid,
-                    pinned,
-                    original,
-                    short_hash,
-                    linkcategory,
-                    last_visited
-                  },
+                  { linkid, pinned, original, short_hash, linkcategory, count },
                   i
                 ) => {
                   return (
@@ -138,7 +122,7 @@ class LinkList extends Component {
                       <th scope="row">
                         <button
                           className={`${
-                            pinned ? "btn-primary" : "btn-outline-info"
+                            pinned ? "btn-info" : "btn-outline-info"
                           } p-2`}
                           onClick={() => this.handlePin(linkid, pinned)}
                         >
@@ -151,36 +135,13 @@ class LinkList extends Component {
                         </a>
                       </td>
                       <td>
-                        {last_visited ? (
-                          <>
-                            <a
-                              href={original}
-                              target="_blank"
-                              onClick={() => this.handleShowClick(linkid)}
-                              data-for={short_hash}
-                              data-tip
-                            >
-                              http://short.is/{short_hash}
-                            </a>
-                            <ReactTooltip
-                              id={short_hash}
-                              place="bottom"
-                              type="info"
-                            >
-                              Last Visited:
-                              {/* {this.formatDate(last_visited.updated_at)} */}
-                              {moment(last_visited.updated_at).fromNow()}
-                            </ReactTooltip>
-                          </>
-                        ) : (
-                          <a
-                            href={original}
-                            target="_blank"
-                            onClick={() => this.handleShowClick(linkid)}
-                          >
-                            http://short.is/{short_hash}
-                          </a>
-                        )}
+                        <a
+                          href={original}
+                          target="_blank"
+                          onClick={() => this.handleShowClick(linkid)}
+                        >
+                          http://short.is/{short_hash}
+                        </a>
                       </td>
                       <td>
                         <div className="dropdown">
@@ -231,7 +192,7 @@ class LinkList extends Component {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                               >
-                                Choose category
+                                Select
                               </button>
                               <div
                                 className="dropdown-menu"
@@ -259,6 +220,7 @@ class LinkList extends Component {
                           )}
                         </div>
                       </td>
+                      <td>{count}</td>
                       <td>
                         <button
                           type="button"

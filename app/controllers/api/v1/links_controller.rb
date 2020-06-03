@@ -46,10 +46,9 @@ class Api::V1::LinksController < ApplicationController
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
-        category: link.category,
+        linkcategory: link.category,
         count: link.count,
         category_id: link.category_id,
-        last_visited: link.counters.last
         }}
       render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
         :message => "Link Updated!" }
@@ -83,10 +82,9 @@ class Api::V1::LinksController < ApplicationController
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
-        category: link.category,
+        linkcategory: link.category,
         category_id: link.category_id,
         count: link.count,
-        last_visited: link.counters.last
         }}
     end
 
