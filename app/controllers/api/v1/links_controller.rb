@@ -8,7 +8,6 @@ class Api::V1::LinksController < ApplicationController
 
   def create
     @link = Link.find_by(link_params)
-
     if @link
       render status: :ok, json: { link: @link, 
         :message => "Link exists: http://short.is/#{@link.short_hash}" }
@@ -26,7 +25,9 @@ class Api::V1::LinksController < ApplicationController
 
   def show
     if @link
-      render status: :ok, json: { link: @link, 
+      @link.update_attributes(count: @link.count + 1)
+      @counter = Counter.create(link_id: params[:id])
+      render status: :ok, json: { link: @link, counted: @counter,
         :message => "The original url of https://short.is/#{@link.short_hash} is #{@link.original}" }
     else
       render status: :not_found, json: { :errors => @link.errors, 
@@ -39,14 +40,16 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
+        {linkid: link.id,
         original: link.original,
         short_hash: link.short_hash,
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
         category: link.category,
-        category_id: link.category_id  
+        count: link.count,
+        category_id: link.category_id,
+        last_visited: link.counters.last
         }}
       render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
         :message => "Link Updated!" }
@@ -74,14 +77,16 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
+        {linkid: link.id,
         original: link.original,
         short_hash: link.short_hash,
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
         category: link.category,
-        category_id: link.category_id  
+        category_id: link.category_id,
+        count: link.count,
+        last_visited: link.counters.last
         }}
     end
 
