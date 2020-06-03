@@ -140,7 +140,7 @@ class LinkList extends Component {
                           target="_blank"
                           onClick={() => this.handleShowClick(linkid)}
                         >
-                          http://short.is/{short_hash}
+                          {process.env.ROOT_URL}/{short_hash}
                         </a>
                       </td>
                       <td>
