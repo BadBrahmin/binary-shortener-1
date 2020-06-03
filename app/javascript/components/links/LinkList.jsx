@@ -49,7 +49,7 @@ class LinkList extends Component {
         category_id: category_id
       }
     };
-
+    console.log(payload);
     fetch(`/api/v1/links/${link_id}`, {
       method: "PUT",
       headers: {
@@ -123,12 +123,16 @@ class LinkList extends Component {
             {links &&
               links.map(
                 (
-                  { pinned, original, short_hash, linkcategory, last_visited },
+                  {
+                    linkid,
+                    pinned,
+                    original,
+                    short_hash,
+                    linkcategory,
+                    last_visited
+                  },
                   i
                 ) => {
-                  console.log({
-                    last_visited
-                  });
                   return (
                     <tr key={short_hash}>
                       <th scope="row">
@@ -136,7 +140,7 @@ class LinkList extends Component {
                           className={`${
                             pinned ? "btn-primary" : "btn-outline-info"
                           } p-2`}
-                          onClick={() => this.handlePin(link.id, pinned)}
+                          onClick={() => this.handlePin(linkid, pinned)}
                         >
                           <i className="fas fa-thumbtack"></i>
                         </button>
@@ -152,7 +156,7 @@ class LinkList extends Component {
                             <a
                               href={original}
                               target="_blank"
-                              onClick={() => this.handleShowClick(link.id)}
+                              onClick={() => this.handleShowClick(linkid)}
                               data-for={short_hash}
                               data-tip
                             >
@@ -172,7 +176,7 @@ class LinkList extends Component {
                           <a
                             href={original}
                             target="_blank"
-                            onClick={() => this.handleShowClick(link.id)}
+                            onClick={() => this.handleShowClick(linkid)}
                           >
                             http://short.is/{short_hash}
                           </a>
@@ -208,7 +212,7 @@ class LinkList extends Component {
                                         onClick={() =>
                                           this.handleCategoryClick(
                                             category.id,
-                                            link.id
+                                            linkid
                                           )
                                         }
                                       >
@@ -242,7 +246,7 @@ class LinkList extends Component {
                                         onClick={() =>
                                           this.handleCategoryClick(
                                             category.id,
-                                            link.id
+                                            linkid
                                           )
                                         }
                                       >
@@ -259,7 +263,7 @@ class LinkList extends Component {
                         <button
                           type="button"
                           className="btn btn-link"
-                          onClick={() => this.handleDelete(link.id)}
+                          onClick={() => this.handleDelete(linkid)}
                         >
                           Delete
                         </button>

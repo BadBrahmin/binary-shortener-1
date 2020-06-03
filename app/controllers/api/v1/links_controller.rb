@@ -48,7 +48,8 @@ class Api::V1::LinksController < ApplicationController
         updated_at: link.updated_at,
         category: link.category,
         count: link.count,
-        category_id: link.category_id  
+        category_id: link.category_id,
+        last_visited: link.counters.last
         }}
       render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
         :message => "Link Updated!" }
