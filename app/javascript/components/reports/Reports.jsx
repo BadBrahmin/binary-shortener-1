@@ -24,7 +24,7 @@ class Reports extends Component {
           <table className="table table-striped text-center my-5 p-5">
             <thead className="thead-light">
               <tr>
-                <th>Months</th>
+                <th>Month</th>
                 <th># of clicks</th>
               </tr>
             </thead>
