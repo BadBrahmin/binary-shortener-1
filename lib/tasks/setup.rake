@@ -37,7 +37,7 @@ task setup_sample_data: [:environment, :not_production] do
   delete_all_records_from_all_tables
 
   links = [
-    {original:"https://learnrubyonrails.bigbinary.com"},
+    {original:"https://bigbinary.com/jobs"},
     {original: "https://learnrubyonrails.bigbinary.com/docs/"},
     {original: "https://altcampus.io"},
     {original: "https://twitter.com/"},
