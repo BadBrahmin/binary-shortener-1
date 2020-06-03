@@ -25,6 +25,7 @@ class Api::V1::LinksController < ApplicationController
 
   def show
     if @link
+      @link.update_attributes(count: @link.count + 1)
       @counter = Counter.create(link_id: params[:id])
       render status: :ok, json: { link: @link, counted: @counter,
         :message => "The original url of https://short.is/#{@link.short_hash} is #{@link.original}" }
@@ -39,13 +40,14 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
+        {linkid: link.id,
         original: link.original,
         short_hash: link.short_hash,
         pinned: link.pinned,
         created_at: link.created_at,
         updated_at: link.updated_at,
         category: link.category,
+        count: link.count,
         category_id: link.category_id  
         }}
       render status: :ok, json: { updated_link: @link, links: @linkswithcategory, 
@@ -74,7 +76,7 @@ class Api::V1::LinksController < ApplicationController
       @links = Link.order(pinned: :desc, updated_at: :desc)
       @categories = Category.all
       @linkswithcategory = @links.map{ |link|
-        {id: link.id,
+        {linkid: link.id,
         original: link.original,
         short_hash: link.short_hash,
         pinned: link.pinned,
@@ -82,6 +84,7 @@ class Api::V1::LinksController < ApplicationController
         updated_at: link.updated_at,
         category: link.category,
         category_id: link.category_id,
+        count: link.count,
         last_visited: link.counters.last
         }}
     end
